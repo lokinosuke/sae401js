@@ -262,28 +262,28 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
 
         <div v-if='partie' class="statut h-14 w-full blury rounded-b-xl p-3 grid place-content-center">
           <div v-if="idPlayer == 1 && partie.quijoue =='0' && partie.quidonne =='2' && partie.tour < 7">
-      <p>{{ partie.user2.pseudo }} est en train de donner un indice</p> 
+      <p>{{ partie.user2.pseudo }} est en train de donner un indice</p>
     </div>
 
     <div v-if="idPlayer == 1 && partie.quijoue =='0' && partie.quidonne =='1' && partie.tour < 8">
       <p>Vous êtes en train de donner un indice</p> 
     </div>
-    <div v-if="idPlayer == 2 && partie.quijoue =='0' && partie.quidonne =='2' && partie.tour < 8">
+    <div v-if="idPlayer == 2 && partie.quijoue =='0' && partie.quidonne =='2' && partie.tour < 8 && partie.statut == 'en cours'">
       <p>Vous êtes en train de donner un indice</p> 
     </div>
-    <div v-if="idPlayer == 2 && partie.quijoue =='0' && partie.quidonne =='1' && partie.tour < 8">
+    <div v-if="idPlayer == 2 && partie.quijoue =='0' && partie.quidonne =='1' && partie.tour < 8 && partie.statut == 'en cours'">
       <p>{{ partie.user1.pseudo }} est en train de donner un indice</p> 
     </div>
     <div v-if="idPlayer == 2 && partie.quijoue =='1' && partie.quidonne =='0' && partie.tour < 8">
     <p>{{ partie.user1.pseudo }} est en train de deviner</p>
     </div>
-    <div v-if="idPlayer == 1 && partie.quijoue =='1' && partie.quidonne =='0' && partie.tour < 8">
+    <div v-if="idPlayer == 1 && partie.quijoue =='1' && partie.quidonne =='0' && partie.tour < 8 && partie.statut == 'en cours'">
     <p>Vous êtes en train de deviner</p>
     </div>
-    <div v-if="idPlayer == 2 && partie.quijoue =='2' && partie.quidonne =='0' && partie.tour < 8">
+    <div v-if="idPlayer == 2 && partie.quijoue =='2' && partie.quidonne =='0' && partie.tour < 8 && partie.statut == 'en cours'">
     <p>Vous êtes en train de deviner</p>
     </div>
-    <div v-if="idPlayer == 1 && partie.quijoue =='2' && partie.quidonne =='0' && partie.tour < 8">
+    <div v-if="idPlayer == 1 && partie.quijoue =='2' && partie.quidonne =='0' && partie.tour < 8 && partie.statut == 'en cours'">
     <p>{{ partie.user2.pseudo }} est en train de deviner</p>
     </div>
 
@@ -302,8 +302,20 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
     </div>
         </div>
     <div v-if="partie" class="parent">
-      <div v-if="partie.resultat == 'terminé'">
-    finito
+      <div class="terminé" v-if="partie.statut == 'terminé'">
+        <h3>Partie terminée</H3>
+        <div>
+          <div>
+            <img :src="'/src/assets/' + partie.user1.avatar" alt="">
+            <p>{{ partie.user1.pseudo }}</p>
+          </div>
+          <div>
+            <img :src="'/src/assets/' + partie.user2.avatar"  alt="">
+            <p>{{ partie.user2.pseudo }}</p>
+          </div>
+
+      </div>
+
       </div>
       <div v-if="partie.tour > 8" class="gameover"> 
         <h3>Game Over</H3>
@@ -320,8 +332,8 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
       </div>
       <a href="http://mmi21h01.sae401.ovh">quit</a>
       </div>
-      <div v-if="idPlayer == 1 && (partie.quijoue == '2' || partie.quijoue == '0') && partie.tour < 8 || partie.tour == 9" class="notyourturn"></div>
-      <div v-if="idPlayer == 2 && (partie.quijoue == '1' || partie.quijoue == '0') && partie.tour < 8 || partie.tour == 9" class="notyourturn"></div>
+      <div v-if="idPlayer == 1 && (partie.quijoue == '2' || partie.quijoue == '0') && partie.tour < 8 || partie.tour == 9 || partie.statut == 'terminé'" class="notyourturn"></div>
+      <div v-if="idPlayer == 2 && (partie.quijoue == '1' || partie.quijoue == '0') && partie.tour < 8 || partie.tour == 9 || partie.statut == 'terminé'" class="notyourturn"></div>
       
       <div v-for="(mot, index) in partie.motparties" @click="cartetrigger(index)" :key="mot.id">
         <button v-if="idPlayer == 1 || partie.etat == 'decouvert' || partie.etat == 'jeton' " :class="[mot.couleurJ1]">
@@ -444,7 +456,7 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
         </div>
         <div class="nbcard flex gap-2">
           <div class="tour flex flex-col items-center p-3 second-black rounded-lg flex-1 grid place-content-center">
-            <p class="text-xl text-center">?/9</p>
+            <p class="text-xl text-center"> {{ partie.tour }}/9</p>
             <p class="text-zinc-500 text-center">Tour</p>
           </div>
           <div class="carte flex flex-col items-center p-3 second-black rounded-lg flex-1 grid place-content-center">
@@ -480,14 +492,14 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
 </template>
 
 <style scoped>
-.gameover > div {
+.gameover,.terminé > div {
   display: flex;
   justify-content: space-around;
 }
-.gameover > div > div > img {
+.gameover,.terminé > div > div > img {
   height: 5rem;
 }
-.gameover > div > div > p {
+.gameover, .terminé > div > div > p {
   text-align: center;
 }
 .gameover {
