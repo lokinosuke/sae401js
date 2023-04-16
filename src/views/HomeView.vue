@@ -4,6 +4,9 @@ import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 
+
+
+
 const route = useRoute()
 const idPartie = ref()
 const idPlayer = ref()
@@ -255,9 +258,9 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
 
     </div>
         </div>
-    <div class="jeu">
+    <div class="jeu h-full flex flex-col justify-between">
 
-        <div v-if='partie' class="statut">
+        <div v-if='partie' class="statut h-14 w-full blury rounded-b-xl p-3 grid place-content-center">
           <div v-if="idPlayer == 1 && partie.quijoue =='0' && partie.quidonne =='2' && partie.tour < 7">
       <p>{{ partie.user2.pseudo }} est en train de donner un indice</p> 
     </div>
@@ -357,40 +360,44 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
             </div>
         </button>
 
- </div>
+    </div>
+    </div>
+        
+        
+      <div class="eheoh h-32 w-full blury rounded-t-xl p-3">
 
+
+    <div v-if="idPlayer == 1 && partie.quidonne == '1' && partie.tour < 8" class="notyourturn1 flex h-full justify-between" >
+      <div class="h-full grid place-content-center">
+        <h2 class="title text-xl  flex items-center justify-between text-zinc-300 text-center ">Ajouter un indice</h2>
+      </div>
+      <div class="flex gap-4 w-fit justify-end">
+        <div class=" h-full quantity ">
+          <input placeholder="voiture" type="text" id="mot" v-model="mot" class="minipl main-black w-full h-full main-black rounded-md" />
         </div>
-        
-        
-        <div>
+        <div class="aspect-square h-full quantity">
+          <input class="aspect-square main-black w-full h-full main-black rounded-md" type="number" :placeholder="1" min="1" max="9" id="nbmots" v-model.number="nbmots" />
+        </div>
+        <input type="hidden" name="valeur" :value="getuserun()"/>
+        <button class="h-full aspect-square w-fit ease-in duration-100 text-white focus:ring-4 shadow-lg shadow-orange-600/20 font-medium rounded-md text-sm text-center main-gradient-b cursor-pointer" @click="ajouter">Ajouter</button>
+      </div>
+    </div>
+    <div v-if="idPlayer == 2 && partie.quidonne == '2' && partie.tour < 8" class="notyourturn1 flex h-full justify-between">
+      <div class="h-full grid place-content-center">
+        <h2 class="title text-xl  flex items-center justify-between text-zinc-300 text-center ">Ajouter un indice</h2>
+      </div>
+      <div class="flex gap-4 w-fit justify-end">
+        <div class=" h-full quantity ">
+          <input placeholder="voiture" type="text" id="mot" v-model="mot" class="minipl main-black w-full h-full main-black rounded-md" />
+        </div>
+        <div class="aspect-square h-full quantity">
+          <input class="aspect-square main-black w-full h-full main-black rounded-md" type="number" :placeholder="1" min="1" max="9" id="nbmots" v-model.number="nbmots" />
+        </div>
+        <input type="hidden" name="valeur" :value="getuserun()"/>
+        <button class="h-full aspect-square w-fit ease-in duration-100 text-white focus:ring-4 shadow-lg shadow-orange-600/20 font-medium rounded-md text-sm text-center main-gradient-b cursor-pointer" @click="ajouter">Ajouter</button>
+      </div>
+    </div>
 
-    <div v-if="partie">
-    <div v-if="idPlayer == 1 && partie.quidonne == '1' && partie.tour < 8" class="notyourturn1 " >
-      <h2>Ajouter un indice</h2>
-      <div>
-        <label for="nom">Nom :</label>
-        <input type="text" id="mot" v-model="mot" />
-      </div>
-      <div>
-        <label for="valeur">Valeur :</label>
-        <input type="number" min="1" max="9" id="nbmots" v-model.number="nbmots" />
-      </div>
-      <input type="hidden" name="valeur" :value="getuserun()"/>
-      <button @click="ajouter">Ajouter</button>
-    </div>
-    <div v-if="idPlayer == 2 && partie.quidonne == '2' && partie.tour < 8" class="notyourturn1">
-      <h2>Ajouter un indice</h2>
-      <div>
-        <label for="nom">Nom :</label>
-        <input type="text" id="mot" v-model="mot" />
-      </div>
-      <div>
-        <label for="valeur">Valeur :</label>
-        <input type="number" min="1" max="9" id="nbmots" v-model.number="nbmots" />
-      </div>
-      <button @click="ajouter">Ajouter</button>
-    </div>
-  </div>
 
   <div v-if="partie">
 
@@ -417,33 +424,47 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
   </div>
   </div>
     </div>
-    <div v-if="partie" class="droit">
-        <div class="side">
-            <div class="theirside">
-              <img :src="'/src/assets/' + partie.user2.avatar" class="profil" alt="">
-              <p>{{ partie.user2.pseudo }}</p>
+    <div v-if="partie" class="droit blury h-full rounded-l-xl px-3 py-3 w-80 overflow-hidden">
+
+
+        <div v-if="partie.user1.couleur == '#F34B4B' ">
+          <div class="w-8 h-8 bg-red-600"></div>
+        </div>
+        <div class="side flex gap-4">
+            <div class="theirside flex flex-col items-center gap-4 p-4 second-black rounded-xl flex-1">
+              <div class="aspect-square w-20 rounded-xl bg-cover bg-center shadow-lg shadow-orange-600/10" :style="{backgroundImage: `url('/src/assets/${partie.user2.avatar}')`, backgroundColor: partie.user2.color}">
+              </div>
+              <p class="self-center text-xl font-semibold whitespace-nowrap leading-none text-zinc-300">{{ partie.user2.pseudo }}</p>
             </div>
-            <div class="nbcard">
-                <div class="carte">
-                    <p>{{ partie.cartetotal }}</p>
-                </div>
-                <div class="jeton">
-                    <p>{{ partie.jeton }}</p>
-                </div>
-            </div>
-            <div class="yourside">
-              <img :src="'/src/assets/' + partie.user1.avatar" class="profil" alt="" style="background-color: {{ partie.user1.couleur }};">
-              <p>{{ partie.user1.pseudo }}</p>
+            <div class="theirside flex flex-col items-center gap-4 p-4 second-black rounded-xl flex-1">
+              <div class="aspect-square w-20 rounded-xl bg-cover bg-center shadow-lg shadow-orange-600/10" :style="{backgroundImage: `url('/src/assets/${partie.user1.avatar}')`, backgroundColor: partie.user1.color}">
+              </div>
+              <p class="self-center text-xl font-semibold whitespace-nowrap leading-none text-zinc-300">{{ partie.user1.pseudo }}</p>
             </div>
         </div>
-    <div class="chat">
-        <div class="chat-container">
-            <div class="chat-body">
-                <div class="title">
-                    game log
-                </div>
-                <div class="boxmessage">
-              <div v-for="indice in partie.indices" :key="indice.id" class="chat-message">
+        <div class="nbcard flex gap-2">
+          <div class="tour flex flex-col items-center p-3 second-black rounded-lg flex-1 grid place-content-center">
+            <p class="text-xl text-center">?/9</p>
+            <p class="text-zinc-500 text-center">Tour</p>
+          </div>
+          <div class="carte flex flex-col items-center p-3 second-black rounded-lg flex-1 grid place-content-center">
+            <p class="text-xl text-center flex gap-1 items-center">{{ partie.cartetotal }}<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20,4H4C2.897,4,2,4.897,2,6v12c0,1.103,0.897,2,2,2h16c1.103,0,2-0.897,2-2V6C22,4.897,21.103,4,20,4z M4,18V6h16 l0.001,12H4z"></path><path d="M6.5 11h3c.276 0 .5-.224.5-.5v-2C10 8.224 9.776 8 9.5 8h-3C6.224 8 6 8.224 6 8.5v2C6 10.776 6.224 11 6.5 11zM6 14H12V16.001H6zM13 14H18V16.001H13z"></path></svg></p>
+            <p class="text-zinc-500 text-center">Carte</p>
+          </div>
+          <div class="jeton flex flex-col items-center p-3 second-black rounded-lg flex-1 grid place-content-center">
+            <p class="text-xl text-center flex gap-1 items-center">{{ partie.jeton }}<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12,6C7.03,6,2,7.546,2,10.5v4C2,17.454,7.03,19,12,19s10-1.546,10-4.5v-4C22,7.546,16.97,6,12,6z M4,14.5v-1.197 c0.576,0.335,1.251,0.623,2,0.86v1.881C4.688,15.53,4,14.918,4,14.5z M16,14.648v1.971c-0.867,0.179-1.867,0.31-3,0.358v-2 C14.028,14.935,15.041,14.823,16,14.648z M11,16.978c-1.133-0.048-2.133-0.179-3-0.358v-1.971c0.959,0.174,1.972,0.287,3,0.33 V16.978z M18,16.044v-1.881c0.749-0.237,1.424-0.524,2-0.86V14.5C20,14.918,19.313,15.53,18,16.044z M12,13c-5.177,0-8-1.651-8-2.5 S6.823,8,12,8s8,1.651,8,2.5S17.177,13,12,13z"></path></svg></p>
+            <p class="text-zinc-500 text-center">Jeton</p>
+          </div>
+      </div>
+    <div class="chat mt-3 border-t-2 border-zinc-500/10 h-full">
+        <div class="chat-container h-full">
+          <div class="title text-xl font-semibold flex items-center justify-between text-zinc-300 mb-2">
+            game log
+          </div>
+            <div class="chat-body h-full">
+
+                <div class="boxmessage rounded-lg text-zinc-500">
+              <div v-for="indice in partie.indices" :key="indice.id" class="chat-message blury rounded-lg">
 
               <p>{{indice.user.pseudo}} {{indice.action}} {{indice.mot}} {{indice.nbmots}}</p>
             </div>
@@ -493,12 +514,11 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
     text-transform: uppercase;
 }
 .theirside, .yourside {
-  display: flex;
-    align-items: center;
+  padding: 15px;
 }
 .statut > div {
-  background-color: white;
-    width: fit-content;
+  color: #7c7c7c;
+  font-size: 1.4rem;
 }
 .profil {
   height: 2rem;
@@ -563,7 +583,6 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
 }
 .notyourturn1 {
     display: flex;
-    flex-direction: column;
     row-gap: 0.5rem;
 }
 
@@ -573,8 +592,7 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+
 }
 .parent1 {
     display: grid;
@@ -630,28 +648,20 @@ form {
 .side {
     backdrop-filter: blur(5px);
     border-radius: 10px;
-    padding: 0.5rem;
     margin-bottom: 1rem;
 }
 
     .chat-container {
-        width: 15rem;
-        height: 25rem;
-        backdrop-filter: blur(5px);
-        border-radius: 10px;
-        overflow: hidden;
+
       }
       
       .chat-body {
         height: 100%;
-        padding: 10px;
         box-sizing: border-box;
         overflow-y: auto;
       }
       
       .chat-message {
-        background-color: #292a2e;
-        border-radius: 5px;
         padding: 10px;
         margin-bottom: 10px;
       }
@@ -660,15 +670,12 @@ form {
 }
       .contenu {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
       }
       .title {
-        border-bottom: black solid 1px;
-        margin-bottom: 0.5rem;
-        text-align: center;
-        color: white;
-        
+        color: #7c7c7c;
+        font-size: 1.4rem;
       }
       .pseudo {
         font-weight: bold;
@@ -713,9 +720,8 @@ form {
       }
 
       .statut {
-    width: 12rem;
-    border: black 1px solid;
-    width: fit-content;
+    width: 100%;
+
       }
       .statut > p {
         padding: 0.5rem;
@@ -742,5 +748,77 @@ border: #343434 solid 2px;
 .Neutre {
   background-color: #C932C2;
   position: relative;
+}
+
+
+
+
+.quantity {
+  position: relative;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.quantity input {
+  line-height: 1.65;
+  float: left;
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-left: 45%;
+  border: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  font-size: 1rem;
+}
+
+.quantity input:focus {
+  outline: 0;
+}
+
+.quantity-nav {
+  float: left;
+  position: relative;
+  height: 42px;
+}
+
+.quantity-button {
+  position: relative;
+  cursor: pointer;
+  border: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  width: 21px;
+  text-align: center;
+  color: #333;
+  font-size: 13px;
+  font-family: "FontAwesome" !important;
+  line-height: 1.5;
+  padding: 0;
+  background: #FAFAFA;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.quantity-button:active {
+  background: #EAEAEA;
+}
+
+#nbmots {
+  width: 100%;
+}
+.minipl {
+  padding-left: 15px !important;
 }
 </style>

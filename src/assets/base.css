@@ -1,9 +1,45 @@
 body {
-    padding: 0;
-    margin: 0;
+
   }
   * {
-    margin: 0;
-    padding: 0;
+
     box-sizing: border-box;
   }
+.main-black {
+    background-color: #212429 !important;
+    color: #F9FBFB !important;
+}
+.second-black {
+    background-color: #292A2E !important;
+    color: #F9FBFB !important;
+}
+.main-gray-text {
+    color: #898989 !important;
+}
+.main-orange {
+    background-color: #FD5F02 !important;
+    color: #F9FBFB !important;
+}
+.main-violet {
+    background-color: #C932C2 !important;
+    color: #F9FBFB !important;
+}
+.main-gradient {
+    background: linear-gradient(-55deg, #FD5F02 0%, #C932C2 100%) !important;
+}
+.main-gradient-b {
+    background: linear-gradient(-55deg, #FD5F02 0%, #C932C2 100%) !important;
+}
+.main-gradient-b:hover {
+    background: linear-gradient(-55deg, #e34f00 0%, #bb29b4 100%) !important;
+}
+.main-gradient-text {
+    background: -webkit-linear-gradient(-55deg, #FD5F02 0%, #C932C2 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+.blury {
+    background: rgba(78, 78, 78, 0.25) !important;
+    -webkit-backdrop-filter: blur(50px) !important;
+    backdrop-filter: blur(50px) !important;
+}
