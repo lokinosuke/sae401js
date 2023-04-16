@@ -429,7 +429,7 @@ if (partie.value.motparties[index].couleurJ1 == 'Neutre') {
 
         <div v-if="partie.user1.couleur == '#F34B4B' ">
           <div class="w-8 h-8 bg-red-600"></div>
-        </div>
+        </div>a
         <div class="side flex gap-4">
             <div class="theirside flex flex-col items-center gap-4 p-4 second-black rounded-xl flex-1">
               <div class="aspect-square w-20 rounded-xl bg-cover bg-center shadow-lg shadow-orange-600/10" :style="{backgroundImage: `url('/src/assets/${partie.user2.avatar}')`, backgroundColor: partie.user2.color}">

@@ -40,6 +40,6 @@ body {
 }
 .blury {
     background: rgba(78, 78, 78, 0.25) !important;
-    -webkit-backdrop-filter: blur(50px) !important;
+    -webkit-backdrop-filter: blur(50px) !important ;
     backdrop-filter: blur(50px) !important;
 }
